@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Spring Security Example</title>
+</head>
+<body>
+<h1>Welcome!</h1>
+
+Topics:
+<table>
+    <tr th:each="s : ${allTopics}">
+        <td th:text="${s}">Wow</td>
+    </tr>
+</table>
+<br />
+Users:
+<table>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.username}">Username</td>
+        <td th:text="${user.password}">Username</td>
+    </tr>
+</table>
+
+
+
+</body>
+</html>

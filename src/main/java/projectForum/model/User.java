@@ -1,9 +1,6 @@
 package projectForum.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -24,6 +21,10 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private String password;
+
+    /* @OneToMany
+    @JoinColumn(name = "messageId")
+    private Message message; */
 
     protected User() {}
 

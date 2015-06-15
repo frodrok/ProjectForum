@@ -6,6 +6,11 @@
 <body>
 <h1>Welcome!</h1>
 
+<form action="#" th:action="@{/}" th:object="${topic}" method="post">
+    <input type="text" th:field="*{title}" />
+    <input type="submit" />
+</form>
+
 Topics:
 <table>
     <tr th:each="s : ${allTopics}">

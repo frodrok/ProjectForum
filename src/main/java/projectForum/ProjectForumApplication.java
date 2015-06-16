@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -27,7 +28,7 @@ public class ProjectForumApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ProjectForumApplication.class, args);
-        System.out.println("hey");
+        System.out.println("[" + new Date() + "] - started up successfully. Do what you have to do.");
     }
 
     @Bean

@@ -1,0 +1,6 @@
+<table>
+    <tr th:each="message : ${messages}">
+        <td th:text="${message.messageContent}">messageContent</td>
+        <td th:text="${message.id}">#ID</td>
+    </tr>
+</table>

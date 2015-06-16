@@ -1,27 +1,58 @@
 package projectForum.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by User on 2015-06-15.
  */
 
 @Entity
-public class Message {
+@Table(name = "messages")
+public class Message implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
-    private int id;
+    @Column(name = "message_id")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "topicId")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @OneToOne
-    @JoinColumn(name = "userId")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String messageContent;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Topic getTopic() {
+
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
 
     public Message() {}
 

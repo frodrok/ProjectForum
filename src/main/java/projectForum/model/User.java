@@ -2,18 +2,21 @@ package projectForum.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by User on 2015-06-15.
  */
 
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false)
@@ -22,9 +25,12 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    /* @OneToMany
-    @JoinColumn(name = "messageId")
-    private Message message; */
+    @OneToMany(mappedBy="user")
+    private List<Message> messages;
+
+    public List<Message> getMessages() {
+        return messages;
+    }
 
     protected User() {}
 

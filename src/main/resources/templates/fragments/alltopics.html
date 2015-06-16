@@ -1,0 +1,7 @@
+<table>
+    <tr th:each="topic : ${topics}">
+        <!-- <td th:text="${topic.id}">#ID</td> -->
+        <td th:text="${topic.id}">#ID</td>
+        <td><a th:href="@{|/topic/${topic.id}|}" th:text="${topic.title}">Title</a></td>
+    </tr>
+</table>

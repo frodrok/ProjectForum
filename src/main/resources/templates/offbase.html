@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security Example</title>
+    <title>BestForum.com</title>
 </head>
 <body>
-<h1>Welcome!</h1>
 
-<form action="#" th:action="@{/}" th:object="${topic}" method="post">
-    <input type="text" th:field="*{title}" />
-    <input type="submit" />
-</form>
+<h1>BestForum.com</h1>
 
-Topics:
-<table>
-    <tr th:each="s : ${allTopics}">
-        <td th:text="${s}">Wow</td>
-    </tr>
-</table>
-<br />
-Users:
-<table>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.username}">Username</td>
-        <td th:text="${user.password}">Username</td>
-    </tr>
-</table>
+<div th:if="${display == 'bas'}">
+    <form action="#" th:action="@{/}" th:object="${topic}" method="post">
+        <input type="text" th:field="*{title}" />
+        <input type="submit" value="Create new topic"/>
+    </form>
+
+    <span th:if="${topics == null}">Topics</span>
+    <span th:if="${topics != null}">Topics is not null</span>
+
+    <div th:if="${topics != null}">
+        <div th:include="fragments/alltopics" th:remove="tag"></div>
+    </div>
 
 
+</div>
+
+<div th:if="${display == 'topic'}">
+
+    <h2 th:text="${topic.title}">Title</h2>
+
+    <div th:include="fragments/messages" th:remove="tag"></div>
+
+    <form action="#" th:action="@{|/topic/${topic.id}|}" th:object="${message}" method="post">
+        <input type="text" th:field="*{messageContent}" />
+        <input type="submit" value="Quick add message"/>
+    </form>
+
+</div>
 
 </body>
 </html>

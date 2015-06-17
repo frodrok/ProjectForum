@@ -32,6 +32,9 @@ public class Topic implements Serializable {
     @Column(name = "topic_date")
     private Long date;
 
+    @Column(name = "topic_created_date")
+    private Long createdDate;
+
     private String title;
 
     public Topic() {}
@@ -79,5 +82,13 @@ public class Topic implements Serializable {
 
     public void setDate(Long date) {
         this.date = date;
+    }
+
+    public Long getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
     }
 }

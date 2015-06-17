@@ -17,7 +17,7 @@ public class Forum implements Serializable {
     private Long id;
 
     @OneToMany(mappedBy="forum")
-    @OrderBy("topic_date")
+    @OrderBy("topic_date DESC")
     private Set<Topic> topicList;
 
     public Forum() {}

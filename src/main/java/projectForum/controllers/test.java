@@ -3,10 +3,7 @@ package projectForum.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import projectForum.model.Forum;
 import projectForum.model.Message;
 import projectForum.model.Topic;
@@ -40,21 +37,32 @@ public class test {
     @RequestMapping("/")
     String base(@ModelAttribute("topic") Topic topic, ModelMap map) {
 
-        List<Topic> topics = topicRepository.findAll();
-        map.put("topics", topics);
+        Forum forum = forumRepository.findOne(new Long(1));
+
+        /* count total amount of messages in the whole forum */
+        int messageCount = 0;
+        for (Topic t : forum.getTopicList()) {
+            for (Message m : t.getMessages()) {
+                messageCount++;
+            }
+        }
+
+        map.put("messageAmount", messageCount);
+        map.put("topicsAmount", forum.getTopicList().size());
+        map.put("topics", forum.getTopicList());
         map.put("display", "bas");
 
         return "offbase";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    String offbase(@ModelAttribute("topic") Topic topic) {
+    String postNewTopic(@ModelAttribute("topic") Topic topic) {
 
         Forum forum = forumRepository.findOne(new Long(1));
         topic.setForum(forum);
-        topic.setDate(System.currentTimeMillis());
+        topic.setCreatedDate(System.currentTimeMillis());
         topicRepository.save(topic);
-
+ 
         return "redirect:/";
     }
 
@@ -65,14 +73,22 @@ public class test {
         Long longId = new Long(id);
         Topic topic = topicRepository.findOne(longId);
 
-        // you can iterate over topic.messages in thymeleaf template file since you
-        // pass the whole topic in as "topic"
-        map.put("messages", topic.getMessages());
-        map.put("display", "topic");
-        map.put("topic", topic);
+        if (topic != null) {
+            if (topic.getMessages() != null) {
+                map.put("messages", topic.getMessages());
+            } else {
+                map.put("messages", "No messages in this topic");
+            }
 
-        for (Message m : topic.getMessages()) {
-            System.out.println(m.getId() + "] " + m.getMessageContent());
+            for (Message m : topic.getMessages()) {
+                System.out.println(m.getId() + "] " + m.getMessageContent());
+            }
+
+            map.put("topic", topic);
+            map.put("display", "topic");
+
+        } else {
+            map.put("display", "notopic");
         }
 
         return "offbase";
@@ -89,25 +105,46 @@ public class test {
         Message newMessage = new Message();
         newMessage.setMessageContent(message.getMessageContent());
 
-        Long idlong = new Long(3);
+        Long idlong = new Long(1);
         User user = userRepository.findOne(idlong);
         newMessage.setUser(user);
         newMessage.setTopic(topic);
 
+        topic.setDate(System.currentTimeMillis());
+
+        topicRepository.save(topic);
         messageRepository.save(newMessage);
 
         return "redirect:/topic/" + id;
     }
 
+    @RequestMapping(value = "/newtopic", method = RequestMethod.GET)
+    String newTopicGet(ModelMap map, @ModelAttribute("topic") Topic topic) {
+        map.put("display", "newtopic");
+        return "offbase";
+    }
+
+    @RequestMapping(value = "newtopic", method = RequestMethod.POST)
+    String newTopicPost(@ModelAttribute("topic") Topic topic,
+                        ModelMap map, @RequestParam("firstMessage") String firstMessage) {
+        Forum forum = forumRepository.findOne(new Long(1)); // there's only 1 forum so far, scalability son.
+        topic.setDate(System.currentTimeMillis());
+        topic.setForum(forum);
+
+        topicRepository.save(topic);
+
+        Message message = new Message();
+        message.setTopic(topic);
+        message.setUser(userRepository.findOne(new Long(1))); // only 1 user 'anonymous'
+        message.setMessageContent(firstMessage);
+        messageRepository.save(message);
+
+        return "redirect:/";
+    }
+
     @RequestMapping("/doallkinds")
     String execute() {
-
-        // delete 6 first topics
-        for (int i = 1; i <= 6; i++) {
-            topicRepository.delete(new Long(i));
-        }
-
-        return "blank";
+        return "";
     }
 }
 

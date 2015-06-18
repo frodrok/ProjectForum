@@ -1,0 +1,39 @@
+<div class="container">
+
+        <form onsubmit="return validateTextField()" name="postTopic" action="#" th:action="@{/newtopic}" th:object="${topic}" method="post">
+
+            <div class="row">
+                <div class="col-sm-3"><span>Topic title:</span></div>
+                <div class="col-sm-6">
+                    <input type="text" th:field="*{title}" th:class="${#fields.hasErrors('title')}? fieldError"/>
+                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title may not be empty</span>
+                </div>
+            </div>
+
+            <div class="row" id="messageDiv">
+                <div class="col-sm-3"><span>Topic message:</span></div>
+                <div class="col-sm-6"><textarea rows="10" cols="50" name="firstMessage"></textarea></div>
+                <span th:if="${messageResult != null}" th:text="${messageResult}"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-3">
+                    <input type="submit" value="Create new topic"/>
+                </div>
+            </div>
+
+        </form>
+
+    <script>
+        function validateTextField() {
+            var textFieldText = document.forms["postTopic"]["firstMessage"].value;
+            if (textFieldText == null || textFieldText == "") {
+                /* alert("Message must be filled out."); */
+                var div = document.getElementById('messageDiv');
+                div.innerHTML = div.innerHTML + "<span>Message can not be empty.</span>";
+                return false;
+            }
+        }
+    </script>
+
+</div>

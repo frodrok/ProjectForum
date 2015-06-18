@@ -1,7 +1,13 @@
 package projectForum.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by User on 2015-06-15.
@@ -26,7 +32,12 @@ public class Message implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotEmpty
+    @Length(max = 500)
     private String messageContent;
+
+    @NotNull
+    private Long date;
 
     public Long getId() {
         return id;
@@ -62,11 +73,23 @@ public class Message implements Serializable {
         this.messageContent = messageContent;
     }
 
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
     public String getMessageContent() {
         return messageContent;
     }
 
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
+    }
+
+    public Date getDateObject() {
+        return new Date(this.date);
     }
 }

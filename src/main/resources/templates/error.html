@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>BestForum.com</title>
+    <script th:include="fragments/includes" th:remove="tag"></script>
+</head>
+<body>
+<div class="navbar">
+    <div class="col-sm-6 col-sm-offset-2"><img src="/bestforumlogo.png" height="250"></img></div>
+</div>
+
+<span th:text="${error}">Error</span>
+
+</body>
+
+</html>

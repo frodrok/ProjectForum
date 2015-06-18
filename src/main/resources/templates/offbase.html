@@ -6,15 +6,15 @@
 </head>
 <body>
 <div class="navbar">
-    <div class="col-sm-6 col-sm-offset-2"><img src="bestforumlogo.png" height="250"></img></div>
+    <div class="col-sm-6 col-sm-offset-2"><img src="/bestforumlogo.png" height="250"></img></div>
 </div>
 
 <div th:if="${display == 'bas'}">
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-2 col-sm-offset-4">
-                <a th:href="@{/newtopic}">Create new topic</a>
+            <div class="col-sm-4 col-sm-offset-3">
+                <h2><a th:href="@{/newtopic}">Create new topic</a></h2>
             </div>
         </div>
 
@@ -40,29 +40,19 @@
 
 <div th:if="${display == 'topic'}">
 
-    <div id="topictitle"><span><a href="/">Go back</a><h2 th:text="${topic.title}">Title</h2></span></div>
-
     <div th:include="fragments/messages" th:remove="tag"></div>
-
-    <form action="#" th:action="@{|/topic/${topic.id}|}" th:object="${message}" method="post">
-        <input type="text" th:field="*{messageContent}" />
-        <input type="submit" value="Quick add message"/>
-    </form>
 
 </div>
 
 <div th:if="${display == 'newtopic'}">
-    <!-- <div th:include="fragments/newtopic" th:remove="tag"></div> -->
-    <form action="#" th:action="@{/newtopic}" th:object="${topic}" method="post">
-        <input type="text" th:field="*{title}" />
-        <textarea name="firstMessage"></textarea>
-        <input type="submit" value="Create new topic"/>
-    </form>
+    <div th:include="fragments/newtopic" th:remove="tag"></div>
 </div>
 
 <div th:if="${display == 'notopic'}">
     <span>No topic with that ID</span>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 </body>
 </html>

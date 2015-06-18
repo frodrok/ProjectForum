@@ -1,8 +1,17 @@
-<table>
-    <tr th:each="topic : ${topics}">
-        <!-- <td th:text="${topic.id}">#ID</td> -->
-        <td th:text="${topic.id}">#ID</td>
-        <td><a th:href="@{|/topic/${topic.id}|}" th:text="${topic.title}">Title</a></td>
-        <td th:text="${topic.createdDate}"></td>
-    </tr>
+<table data-toggle="table" class="table">
+    <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Created by</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="topic : ${topics}">
+           <!-- <td th:text="${topic.id}">#ID</td> don't want to display the ID of the topic -->
+            <td><a th:href="@{|/topic/${topic.id}|}" th:text="${topic.title}">Title</a></td>
+            <td th:text="${topic.user.username}">Froderino</td>
+            <td th:text="${#calendars.format(topic.dateObject, 'dd MMMM yyyy')}">17 01 2014</td>
+        </tr>
+    </tbody>
 </table>

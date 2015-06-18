@@ -3,6 +3,8 @@ package projectForum.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import projectForum.model.Forum;
 import projectForum.model.Message;
@@ -13,6 +15,7 @@ import projectForum.repository.MessageRepository;
 import projectForum.repository.TopicRepository;
 import projectForum.repository.UserRepository;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,26 +99,47 @@ public class test {
 
     @RequestMapping(value = "/topic/{id}", method = RequestMethod.POST)
     String postMessageToTopic(@PathVariable("id") int id, ModelMap map,
-                              @ModelAttribute("message") Message message) {
+                              @Valid @ModelAttribute("message") Message message,
+                              BindingResult bindingResult) {
 
-        Long longId = new Long(id);
-        Topic topic = topicRepository.findOne(longId);
+        message.setDate(System.currentTimeMillis());
 
-        // has to make a new Message object to save it to the database
-        Message newMessage = new Message();
-        newMessage.setMessageContent(message.getMessageContent());
+        if (bindingResult.hasErrors()) {
 
-        Long idlong = new Long(1);
-        User user = userRepository.findOne(idlong);
-        newMessage.setUser(user);
-        newMessage.setTopic(topic);
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                map.put("error", fieldError.getField() + " - " + fieldError.getCode());
+                System.out.println(fieldError.getField() + " - " + fieldError.getCode());
+                System.out.println(fieldError.getObjectName() + " - " + fieldError.getDefaultMessage());
+            }
 
-        topic.setDate(System.currentTimeMillis());
+            return "error";
 
-        topicRepository.save(topic);
-        messageRepository.save(newMessage);
+        } else {
 
-        return "redirect:/topic/" + id;
+            Long longId = new Long(id);
+            Topic topic = topicRepository.findOne(longId);
+
+            message.setDate(System.currentTimeMillis());
+
+            // has to make a new Message object to save it to the database
+            Message newMessage = new Message();
+            newMessage.setMessageContent(message.getMessageContent());
+
+            Long idlong = new Long(1);
+            User user = userRepository.findOne(idlong);
+            newMessage.setUser(user);
+            newMessage.setTopic(topic);
+            newMessage.setDate(System.currentTimeMillis());
+
+            topic.setDate(System.currentTimeMillis());
+            // topic.setCreatedDate(System.currentTimeMillis());
+            topic.setUser(user);
+
+            topicRepository.save(topic);
+            messageRepository.save(newMessage);
+
+            return "redirect:/topic/" + id;
+        }
     }
 
     @RequestMapping(value = "/newtopic", method = RequestMethod.GET)
@@ -125,21 +149,41 @@ public class test {
     }
 
     @RequestMapping(value = "newtopic", method = RequestMethod.POST)
-    String newTopicPost(@ModelAttribute("topic") Topic topic,
+    String newTopicPost(@Valid @ModelAttribute("topic") Topic topic, BindingResult topicResult,
                         ModelMap map, @RequestParam("firstMessage") String firstMessage) {
-        Forum forum = forumRepository.findOne(new Long(1)); // there's only 1 forum so far, scalability son.
-        topic.setDate(System.currentTimeMillis());
-        topic.setForum(forum);
 
-        topicRepository.save(topic);
 
-        Message message = new Message();
-        message.setTopic(topic);
-        message.setUser(userRepository.findOne(new Long(1))); // only 1 user 'anonymous'
-        message.setMessageContent(firstMessage);
-        messageRepository.save(message);
+        if (topicResult.hasErrors()) {
 
-        return "redirect:/";
+            /* map.put("error", true);
+            List<FieldError> fieldErrors = topicResult.getFieldErrors();
+            for (FieldError fieldError : fieldErrors) {
+                map.put("topicError", fieldError.getCode());
+            } */
+
+            map.put("display", "newtopic");
+            return "offbase";
+
+        } else {
+
+            Forum forum = forumRepository.findOne(new Long(1)); // there's only 1 forum so far, scalability son.
+            topic.setDate(System.currentTimeMillis());
+            topic.setForum(forum);
+            topic.setUser(userRepository.findOne(new Long(1)));
+            topic.setCreatedDate(System.currentTimeMillis());
+
+            topicRepository.save(topic);
+
+            Message message = new Message();
+            message.setTopic(topic);
+            message.setUser(userRepository.findOne(new Long(1))); // only 1 user 'anonymous'
+            message.setDate(System.currentTimeMillis());
+            message.setMessageContent(firstMessage);
+            messageRepository.save(message);
+
+            return "redirect:/";
+        }
+
     }
 
     @RequestMapping("/doallkinds")

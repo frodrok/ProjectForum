@@ -1,5 +1,7 @@
 package projectForum.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -25,12 +27,11 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
+
     @OneToMany(mappedBy="user")
     private List<Message> messages;
 
-    public List<Message> getMessages() {
-        return messages;
-    }
+    public List<Message> getMessages() { return messages; }
 
     protected User() {}
 

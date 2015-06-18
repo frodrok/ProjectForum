@@ -1,6 +1,10 @@
 package projectForum.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +39,12 @@ public class Topic implements Serializable {
     @Column(name = "topic_created_date")
     private Long createdDate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @NotEmpty
+    @Length(max = 255)
     private String title;
 
     public Topic() {}
@@ -84,11 +94,17 @@ public class Topic implements Serializable {
         this.date = date;
     }
 
-    public Long getCreatedDate() {
-        return createdDate;
-    }
+    public Long getCreatedDate() { return createdDate; }
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public Date getDateObject() {
+        return new Date(this.createdDate);
     }
 }

@@ -1,50 +1,29 @@
 package projectForum.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-
 /**
- * Created by User on 2015-06-15.
+ * Created by frodrok on 2015-06-21.
  */
 
-@Entity
-@Table(name = "users")
-public class User implements Serializable {
+public class User {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    @Column(name = "user_id")
-    private Long id;
-
-    @Column(nullable = false)
+    private int id;
     private String username;
-
-    @Column(nullable = false)
     private String password;
 
+    public User() {
+    }
 
-    @OneToMany(mappedBy="user")
-    private List<Message> messages;
-
-    public List<Message> getMessages() { return messages; }
-
-    protected User() {}
-
-    public User(String username, String password) {
+    public User(int id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

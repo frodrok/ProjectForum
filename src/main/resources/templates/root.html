@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>BestForum.com</title>
+</head>
+<body>
+
+<h2>BestForum.com</h2>
+
+<div th:if="${display == 'root'}">
+    <div th:include="fragments/root" th:remove="tag" />
+</div>
+
+<div th:if="${display == 'newtopic'}">
+    <div th:include="fragments/newtopic" th:remove="tag" />
+</div>
+
+<div th:if="${display == 'topic'}">
+    <div th:include="fragments/topic" th:remove="tag" />
+</div>
+
+<div th:if="${display == 'newmessage'}">
+    <div th:include="fragments/newmessage" th:remove="tag" />
+</div>
+
+</body>
+
+</html>

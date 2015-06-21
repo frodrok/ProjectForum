@@ -1,0 +1,8 @@
+<div th:each="topic : ${topics}">
+    <span th:text="${topic.id}">wat</span>
+    <span><a th:href="@{|/topic/${topic.id}|}" th:text="${topic.title}">Title</a></span>
+    <span th:text="${topic.createdDate}">wat</span>
+    <span th:text="${topic.user.username}"></span>
+</div>
+
+<a href="/newtopic">Create new Topic</a>

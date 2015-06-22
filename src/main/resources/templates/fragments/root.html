@@ -1,8 +1,35 @@
-<div th:each="topic : ${topics}">
-    <span th:text="${topic.id}">wat</span>
-    <span><a th:href="@{|/topic/${topic.id}|}" th:text="${topic.title}">Title</a></span>
-    <span th:text="${topic.createdDate}">wat</span>
-    <span th:text="${topic.user.username}"></span>
+<div id="search">
+    <a th:href="@{/search}">Search the forum</a> |
+    <a href="/newtopic">Create new Topic</a>
 </div>
 
-<a href="/newtopic">Create new Topic</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Created date</th>
+            <th>Created by</th>
+            <th>Rating</th>
+            <th>Rate</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="topic : ${topics}">
+            <td><a th:text="${topic.title}" th:href="@{|/topic/${topic.id}|}">Title</a></td>
+            <!-- <td th:text="${topic.createdDate}"></td> -->
+            <td th:text="${#dates.format(topic.createdDateAsDateObject, 'dd MM yyyy')}"></td>
+            <td th:text="${topic.user.username}"></td>
+            <td th:text="${topic.rating}"></td>
+            <td><form action="#" th:action="@{rate}" th:object="${rating}" method="post">
+                <select th:field="*{rating}">
+                    <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
+                </select>
+
+                <input type="hidden" th:value="${topic.id}" id="topic_id" name="topic_id" />
+                <input type="submit" value="rate" />
+            </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

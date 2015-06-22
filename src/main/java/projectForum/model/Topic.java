@@ -2,6 +2,8 @@ package projectForum.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Date;
+
 /**
  * Created by frodrok on 2015-06-21.
  */
@@ -14,6 +16,8 @@ public class Topic {
 
    private User user;
 
+    private int rating;
+
     private Long createdDate;
 
     private Long updatedDate;
@@ -24,11 +28,12 @@ public class Topic {
     public Topic() {
     }
 
-    public Topic(int id, String title, String firstMessage, Long createdDate, User user) {
+    public Topic(int id, String title, String firstMessage, Long createdDate, int rating, User user) {
         this.id = id;
         this.title = title;
         this.createdDate = createdDate;
         this.user = user;
+        this.rating = rating;
         this.firstMessage = firstMessage;
     }
 
@@ -70,6 +75,10 @@ public class Topic {
         this.createdDate = createdDate;
     }
 
+    public Date getCreatedDateAsDateObject() {
+        return new Date(this.createdDate);
+    }
+
     public String getFirstMessage() {
         return firstMessage;
     }
@@ -84,5 +93,13 @@ public class Topic {
 
     public void setUpdatedDate(Long updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

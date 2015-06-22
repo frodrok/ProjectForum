@@ -25,13 +25,13 @@ public class MessageRepository {
     private UserRepository userRepository;
 
     public void insert(Message message) {
-        this.jdbcTemplate.update("insert into messages values (?, ?, ?, ?, ?)",
-                0, message.getMessage(), message.getCreated_date(), message.getTopic_id(), message.getUser().getId());
+        this.jdbcTemplate.update("insert into messages values (?, ?, ?, ?, ?, ?, ?)",
+                0, message.getMessage(), message.getCreated_date(), message.getUser().getId(), message.getTopic_id(), 0, 0);
 
     }
 
     public List<Message> findAllById(int id) {
-        String sql = "select message, date, topic_id, user_id from messages order by date asc";
+        String sql = "select message, created_date, topic_id, user_id from messages where topic_id = " + id + " order by created_date asc";
         return this.jdbcTemplate.query(sql, new MessageRowMapper());
     }
 
@@ -39,7 +39,7 @@ public class MessageRepository {
         @Override
         public Message mapRow(ResultSet resultSet, int i) throws SQLException {
             return new Message(resultSet.getString("message"),
-                    resultSet.getLong("date"),
+                    resultSet.getLong("created_date"),
                     resultSet.getInt("topic_id"),
                     userRepository.findById(resultSet.getInt("user_id"))
                     );

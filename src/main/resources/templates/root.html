@@ -2,12 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>BestForum.com</title>
+    <div th:include="fragments/includes" th:remove="tag" />
 </head>
 <body>
 
 <h2>BestForum.com</h2>
 
 <div th:if="${display == 'root'}">
+    <span>
+        Sort by: <a th:href="@{/newest}">Newest</a> | <a th:href="@{/oldest}">Oldest</a> | <a th:href="@{/highest}">Highest</a> |
+        <a th:href="@{/lowest}">Lowest</a>
+    </span>
+
     <div th:include="fragments/root" th:remove="tag" />
 </div>
 
@@ -21,6 +27,18 @@
 
 <div th:if="${display == 'newmessage'}">
     <div th:include="fragments/newmessage" th:remove="tag" />
+</div>
+
+<div th:if="${display == 'search'}">
+
+    <h2>Search the forum</h2>
+
+    <form action="#" th:action="@{search}" th:object="${search}" method="post">
+        <input type="text" th:field="*{searchString}" />
+        <span th:if="${#fields.hasErrors('searchString')}" th:errors="*{searchString}">Search may not be empty</span>
+        <input type="submit" />
+    </form>
+
 </div>
 
 </body>

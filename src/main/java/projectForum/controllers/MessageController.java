@@ -68,4 +68,19 @@ public class MessageController {
         }
 
     }
+
+    @RequestMapping(value = "/doallkinds", method = RequestMethod.GET)
+    public String doAllKinds() {
+
+        for (int i = 0; i < 20; i++) {
+            Topic topic = new Topic();
+            topic.setCreatedDate(System.currentTimeMillis());
+            topic.setTitle("Wat wat wat wat");
+            topic.setFirstMessage("Hah Hah Hah Hah Hah");
+            topic.setUser(userRepository.findById(1));
+            topicRepository.insert(topic);
+        }
+
+        return "blank";
+    }
 }

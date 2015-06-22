@@ -1,12 +1,15 @@
 <span><a th:href="@{/}">Go back</a><h2><span th:text="${topic.title}">1</span></h2></span>
 <h3 th:text="${topic.createdDate}">21 June</h3>
 
+<span th:text="${topic.rating}">1</span>
+
 <p th:text="${topic.firstMessage}">1</p>
 
 <p th:each="message : ${messages}">
     <span th:text="${message.message}"></span>
     <span th:text="${message.created_date}"></span>
     <span th:text="${message.user.username}"></span>
+
 </p>
 
 <a th:href="@{|/topic/${topic.id}/newmessage|}">Create new message</a>

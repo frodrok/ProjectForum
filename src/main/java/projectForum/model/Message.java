@@ -1,6 +1,9 @@
 package projectForum.model;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.Date;
 
 /**
  * Created by frodrok on 2015-06-21.
@@ -8,7 +11,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Message {
 
     @NotEmpty
+    @Length(min = 10, max = 500)
     private String message;
+
+
     private User user;
     private Long created_date;
     private int topic_id;
@@ -53,5 +59,9 @@ public class Message {
 
     public void setTopic_id(int topic_id) {
         this.topic_id = topic_id;
+    }
+
+    public Date getCreatedDateAsDateObject() {
+        return new Date(this.created_date);
     }
 }

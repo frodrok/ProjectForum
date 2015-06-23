@@ -1,5 +1,6 @@
 package projectForum.model;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ public class Topic {
     private int id;
 
     @NotEmpty
+    @Length(min = 5, max = 100)
     private String title;
 
    private User user;

@@ -30,15 +30,7 @@
 </div>
 
 <div th:if="${display == 'search'}">
-
-    <h2>Search the forum</h2>
-
-    <form action="#" th:action="@{search}" th:object="${search}" method="post">
-        <input type="text" th:field="*{searchString}" />
-        <span th:if="${#fields.hasErrors('searchString')}" th:errors="*{searchString}">Search may not be empty</span>
-        <input type="submit" />
-    </form>
-
+    <div th:include="fragments/search" th:remove="tag" />
 </div>
 
 </body>

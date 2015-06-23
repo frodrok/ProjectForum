@@ -6,7 +6,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Title</th>
+            <th>Topic</th>
             <th>Created date</th>
             <th>Created by</th>
             <th>Rating</th>
@@ -18,7 +18,7 @@
         <tr th:each="topic : ${topics}">
             <td><a th:text="${topic.title}" th:href="@{|/topic/${topic.id}|}">Title</a></td>
             <!-- <td th:text="${topic.createdDate}"></td> -->
-            <td th:text="${#dates.format(topic.createdDateAsDateObject, 'dd MM yyyy')}"></td>
+            <td th:text="${#dates.format(topic.createdDateAsDateObject, 'dd MM yyyy HH:mm')}"></td>
             <td th:text="${topic.user.username}"></td>
             <td th:text="${topic.rating}"></td>
             <td><form action="#" th:action="@{rate}" th:object="${rating}" method="post">

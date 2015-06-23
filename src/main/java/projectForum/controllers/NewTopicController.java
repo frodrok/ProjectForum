@@ -12,10 +12,6 @@ import projectForum.repository.TopicRepository;
 
 import javax.validation.Valid;
 
-/**
- * Created by frodrok on 2015-06-21.
- */
-
 @Controller
 public class NewTopicController {
 

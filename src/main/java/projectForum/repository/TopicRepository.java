@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import projectForum.model.Rating;
 import projectForum.model.Topic;
 
 import java.sql.ResultSet;
@@ -53,12 +54,23 @@ public class TopicRepository {
         this.jdbcTemplate.update("update topics set updated_date = " + topic.getUpdatedDate() + " where id = " + topic.getId());
     }
 
+    public List<Topic> search(String keyword) {
+        String sql = "select id, title, first_message, created_date, user_id, ratings_amount/ratings_total as 'rating' from topics where title like '%" + keyword + "%'";
+
+        return this.jdbcTemplate.query(sql, new TopicRowMapper());
+    }
+
     public Topic findById(int id) {
 
         String sql = "select id, title, first_message, created_date, user_id, ratings_amount/ratings_total as 'rating' from topics where id = ?";
         Topic topic = (Topic) jdbcTemplate.queryForObject(sql, new Object[] {id}, new TopicRowMapper());
 
         return topic;
+    }
+
+    public void updateRating(Rating rating) {
+        String sql = "update topics SET ratings_amount = ratings_amount + " + rating.getRating() + ", ratings_total = ratings_total + 1 where id = " + rating.getTopic_id();
+        this.jdbcTemplate.update(sql);
     }
 
     // nested class otherwise it cannot reach userrepository

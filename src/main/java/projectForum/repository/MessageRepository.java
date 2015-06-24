@@ -24,6 +24,13 @@ public class MessageRepository {
     @Autowired
     private UserRepository userRepository;
 
+    public int getMessageCount
+            () {
+        String sql = "select count(*) from messages";
+        int count = this.jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
+        return count;
+    }
+
     public void insert(Message message) {
         this.jdbcTemplate.update("insert into messages values (?, ?, ?, ?, ?, ?, ?)",
                 0, message.getMessage(), message.getCreated_date(), message.getUser().getId(), message.getTopic_id(), 0, 0);

@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * Created by frodrok on 2015-06-21.
  */
+
 public class Message {
 
     @NotEmpty

@@ -14,6 +14,9 @@
         <a th:href="@{/lowest}">Lowest</a>
     </span>
 
+    Topic count: <span th:text="${topicsAmount}">13</span>
+    Message count: <span th:text="${messagesAmount}">14</span>
+
     <div th:include="fragments/root" th:remove="tag" />
 </div>
 

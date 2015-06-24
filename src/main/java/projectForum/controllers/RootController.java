@@ -1,6 +1,7 @@
 package projectForum.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import projectForum.model.Rating;
+import projectForum.model.Topic;
+import projectForum.repository.MessageRepository;
 import projectForum.repository.TopicRepository;
 import projectForum.repository.UserRepository;
 
@@ -19,6 +22,9 @@ public class RootController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String rootGetRedirect() {
@@ -33,7 +39,10 @@ public class RootController {
             return "redirect:/newest";
         }
 
-        // map.put("user", userRepository.findById(1));
+        Page<Topic> page = topicRepository.findTopicsWithPages();
+
+        map.put("messagesAmount", messageRepository.getMessageCount());
+        map.put("topicsAmount", topicRepository.getTopicCount());
         map.put("topics", topicRepository.findTopics(sorting));
         map.put("display", "root");
 

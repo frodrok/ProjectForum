@@ -49,7 +49,7 @@ public class SearchController {
 
             if (foundTopics.size() < 1) {
 
-                map.put("nofoundtopics", "no topics found");
+                map.put("nofoundtopics", true);
 
             } else {
 
